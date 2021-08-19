@@ -1,0 +1,97 @@
+**STEP BY STEP INSTRUCTION TO SETUP TOSCA CI WITH JENKINS**
+
+__SITUATION__
+You want to Setup Continuous Integration with Jenkins and Tosca to Execute your Automated Tosca TestCases to be started directly from a build server Jenkins. 
+
+__SOLUTION__
+In order to Setup Tosca CI and Jenkins in your Test Enviroment, please follow the Step by Step Illustration of Configuration required for successful Test execution which can be started from the build computer or local machine.
+
+Note : This is a simple documentation which will help you to configure or execute your test scripts using CI through Jenkins on your local machine. Obviously there are other ways to setup CI. Eg : Setting up build server on separate machine or CI with DEX. You can check the detailed Information in our Online Manual here:
+
+Tosca CI : https://support.tricentis.com/community/manuals_detail.do?lang=en&version=10.3.0&url=continuous_integration/concept.htm
+
+Tosca CI with DEX : https://support.tricentis.com/community/manuals_detail.do?lang=en&version=10.3.0&url=continuous_integration/setup_dex.htm
+
+ 
+
+1) To start with CI create Test configuration parameter at execution list folder level
+
+ConfigurationParameterName:- ContinuousIntegrationBuildRootFolder
+
+Value:- True
+
+
+
+2) Set Test configuration parameter at execution list level.
+
+ConfigurationParameterName:- ContinuousIntegration
+
+ Value:- True
+
+
+
+3) After this go to ToscaCI folder and edit the ToscaCIRemoteExecutionService.exe.config file
+
+
+
+4) Here edit the value for WorkspacePath, enter the workspace path you want to trigger. Also make sure BaseAddress for the TOSCARemoteExecutionService is localhost as Jenkins and Tosca commander is on same machine.
+
+
+
+5)  Also for ToscaCiClient.exe.config file (C:\Program Files (x86)\TRICENTIS\Tosca Testsuite\ToscaCI\Client )make sure endpoint address is localhost for TOSCARemoteExecutionService.
+
+
+
+To enable the port, enter the following command into the command line using administrator rights:
+
+netsh http add urlacl url=http://+:8732/ user=Everyone
+
+6) After saving both the files open the Jenkins homepage.
+
+   After login to Jenkins click on the New Item menu on top of left side
+
+
+
+7) A new window will open and will ask for Item Name, here enter the name, choose freestyle option and click on OK.
+
+
+
+8) A configuration window will open, here choose the option Build, inside build option click on Add build steps and choose Execute Winodws batch command option.
+
+
+
+9) Enter your command for triggering the execution
+
+"C:\Program Files (x86)\TRICENTIS\Tosca Testsuite\ToscaCI\Client\ToscaCIClient.exe" -m distributed -r "C:\Program Files (x86)\Jenkins\workspace\DevOpsToolChain\result.xml"
+
+Here, path for -r can be any path where you want to save result.xml
+
+
+
+10) After this click on save button and go to the home page of Jenkins. Now you will see your project and clock icon on right hand side.
+
+Click on clock icon at the right corner to start the exection. Before you start the execution run ToscaCIRemoteExecutionService.exe manually to start the services.
+
+
+
+11) You can check the status of you build by clicking on build history button.
+
+
+
+12) Here you need to choose your build number.
+
+
+
+13) Here you need to choose console output option to view the output.
+
+
+
+14) Once you click on the console output button you will get redirected to the output page.
+
+ 
+
+Additional : If you want to trigger the test cases in the remote machine then provide the Ip address of that remote machine instead of Localhost in ToscaCIClient.config file.
+
+eg : <endpoint address="http://<Ip Address of remote machine>:8732/TOSCARemoteExecutionService" binding="basicHttpBinding" bindingConfiguration="BasicHttpBinding_IRemoteExecutionService" contract="ServiceReference1.IRemoteExecutionService" name="BasicHttpBinding_IRemoteExecutionService" />
+
+Start the ToscaCIRemoteExecutionService.exe in the remote machine and then run the Job in Jenkins.
