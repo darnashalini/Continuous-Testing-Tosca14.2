@@ -1,9 +1,9 @@
-**STEP BY STEP INSTRUCTION TO SETUP TOSCA CI WITH JENKINS**
 
-__SITUATION__
-You want to Setup Continuous Integration with Jenkins and Tosca to Execute your Automated Tosca TestCases to be started directly from a build server Jenkins. 
 
-__SOLUTION__
+USE CASE:
+Setup Continuous Integration with Jenkins and Tosca to Execute your Automated Tosca TestCases to be started directly from a build server Jenkins. 
+
+SOLUTION
 In order to Setup Tosca CI and Jenkins in your Test Enviroment, please follow the Step by Step Illustration of Configuration required for successful Test execution which can be started from the build computer or local machine.
 
 Note : This is a simple documentation which will help you to configure or execute your test scripts using CI through Jenkins on your local machine. Obviously there are other ways to setup CI. Eg : Setting up build server on separate machine or CI with DEX. You can check the detailed Information in our Online Manual here:
